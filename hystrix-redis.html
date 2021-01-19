@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+
+    <!--- basic page needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <title>Standard Post - Typerite</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- mobile specific metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/vendor.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!-- script
+    ================================================== -->
+    <script src="js/modernizr.js"></script>
+
+    <!-- favicons
+    ================================================== -->
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+
+</head>
+
+<body class="ss-bg-white">
+
+    <!-- preloader
+    ================================================== -->
+    <div id="preloader">
+        <div id="loader" class="dots-fade">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <div id="top" class="s-wrap site-wrapper">
+
+        <!-- site header
+        ================================================== -->
+        <div id="site-header"></div>
+        <!-- site header end -->
+
+        <!-- site content
+        ================================================== -->
+        <div class="s-content content">
+            <main class="row content__page">
+                
+                <article class="column large-full entry format-standard">
+
+                    <div class="media-wrap entry__media margin-bottom-0">
+                        <div class="entry__post-thumb">
+                            <img src="images/p2_r.jpg" 
+                                 srcset="images/p2_r.jpg 2000w, 
+                                         images/p2_r.jpg 1000w, 
+                                         images/p2_r.jpg 500w" sizes="(max-width: 2000px) 80vw, 2000px" alt="">
+                        </div>
+                    </div>
+
+                    <div class="content__page-header entry__header">
+                        <h2 class="display-3 entry__title">
+                        Building A Highly Cached Fault Tolerant System using Redis, Hystrix and Spring Boot
+                        </h2>
+                        <ul class="entry__header-meta">
+                            <li class="author">By <a href="#0">Pratyush Bansal</a></li>
+                            <li class="date">January 09, 2021</li>
+                            <li class="cat-links">
+                                <a href="#0">System Design</a>
+                            </li>
+                        </ul>
+                    </div> <!-- end entry__header -->
+
+                    <div class="entry__content">
+
+                        <section data-field="body" class="e-content">
+            <section name="547b" class="section section--body section--first section--last">
+               <div class="section-divider">
+                  <hr class="section-divider">
+               </div>
+               <div class="section-content">
+                  <div class="section-inner sectionLayout--insetColumn">
+                     <h4 name="727a" id="727a" class="graf graf--h4 graf-after--h3 graf--subtitle">A bit brief about how it started —</h4>
+                     <p name="ef5f" id="ef5f">The challenge presented before us was to migrate the core ordering application from Ruby to Java (Spring Boot). To begin with this huge task, we picked our main booking show aggregate api, which was hitting around 30 downstream api’s and serving at average <strong class="markup--strong markup--p-strong">throughput of 1280rpm</strong> with average <strong class="markup--strong markup--p-strong">latency of 1100ms</strong></p>
+                     <p name="44e4" id="44e4" class="graf graf--p graf-after--p">The tasks we had in-front of us were -</p>
+                     <ol class="postList">
+                        <li name="25f1" id="25f1" >Build a system that is fault tolerant and isolated from downstream failures</li>
+                        <li name="c4e0" id="c4e0">Build a fault tolerant and refreshable caching mechanism</li>
+                     </ol>
+                     <p name="f52d" id="f52d">Technologies we shortlisted for this task (Prerequisites for this article)<br> 1. Redis (<a href="https://redis.io/" data-href="https://redis.io/" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">https://redis.io/</a>)<br> 2. Netflix Hystrix (v2.0.2) (<a href="https://www.baeldung.com/spring-cloud-netflix-hystrix" data-href="https://www.baeldung.com/spring-cloud-netflix-hystrix" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">https://www.baeldung.com/spring-cloud-netflix-hystrix</a>)<br> 3. Spring Boot (v2.1.0)</p>
+                     <h2 name="362c" id="362c">Architecture Low Level Design</h2>
+                     <figure name="d068" id="d068" class="graf graf--figure graf-after--h3"><img class="graf-image" data-image-id="1*qoqFmvlMEavlaXoEJa90Rw.png" data-width="827" data-height="666" src="https://cdn-images-1.medium.com/max/800/1*qoqFmvlMEavlaXoEJa90Rw.png"></figure>
+                     <p name="4d87" id="4d87" class="graf graf--p graf-after--figure">Terminologies:</p>
+                     <ol class="postList">
+                        <li name="562b" id="562b" >TTL1 — Short lived catching time</li>
+                        <li name="69c2" id="69c2">TTL2 — Main time to live set in redis against the key</li>
+                     </ol>
+                     <h4 name="e662" id="e662">How the flow works -</h4>
+                     <p name="e8b7" id="e8b7">The journey of making the external api call begins at our custom ThreadPoolTaskExecutor. Its various properties are modified to fulfill our requirement. Since we use java’s inheritable thread locals to make some fields globally accessible throughout the thread context, we have added a custom decorator to the threadpool to avoid the issues of data leak associated with a threadpool.</p>
+                     <h3>Part 1 — Hystrix</h3>
+                     <h4 name="9380" id="9380">How hystrix fit’s the picture?</h4>
+                     <p name="5c56" id="5c56">Hystrix in our current configuration creates a wrapper over the existing thread and serves as a circuit breaker. Now when the downstream service is hit and if it fails, either due to a timeout or due to an error response code. Hystrix considers it as a fail and triggers the fallback method which is associated with that api call. More details regarding how we handle this fallback in part 2 of this article. Now if the number of failures breaks a threshold i.e., x number of requests in say 10 second window, hystrix breaks the circuit (open circuit). Subsequent requests are directly sent to the corresponding fallback method.<br>By setting timeout property for each downstream endpoint, we can control how long to wait for response before hystrix fallback event triggers.</p>
+                     <pre name="fc55" id="fc55" class="graf graf--pre graf-after--p"><strong class="markup--strong markup--pre-strong">Example:<br></strong>@HystrixCommand(commandKey = &quot;GET_CITY_BY_ID&quot;, fallbackMethod = &quot;getCityByIdFallback&quot;)</pre>
+                     <pre name="2f01" id="2f01" class="graf graf--pre graf-after--pre">hystrix.command.GET_CITY_BY_ID.execution.isolation.thread.timeoutInMilliseconds=600</pre>
+                     <h3 name="7042" id="7042" class="graf graf--h4 graf-after--pre">Part 2 — Redis</h3>
+                     <p name="efa7" id="efa7">Redis at it’s core saves a key, value pair along with their expiration time (TTL i.e time to live). It provides methods to fetch value and time to live against any key. For our use-case we needed a fail proof, refreshable caching mechanism. To achieve this we created another dummy time to live. So our implementation involved 2 TTL’s, TTL1 and TTL2. <br>TTL2 is the main time to live for redis. This is the time after which the key is removed from cache. <br>TTL1 on the other hand is a name-say time to live. Any key with it’s time to live more than TTL1 and less than TTL2 is considered as stale, i.e., it’s value may or may not have changed in the underlining system. This time is not saved at redis level.</p>
+                     <h4 name="d108" id="d108" class="graf graf--h4 graf-after--p">How redis with TTL1 and TTL2 fit the picture?</h4>
+                     <p name="e1a8" id="e1a8">Caching is enabled for any api call by adding our custom annotation called @CustomCache.</p>
+                     <pre name="ad3a" id="ad3a" class="graf graf--pre graf-after--p">@CustomCache(key = &quot;&#39;CityForCityId_&#39;.concat(#id)&quot;, ttl1 = 1440, ttl2 = 2000)</pre>
+                     <p name="8518" id="8518" class="graf graf--p graf-after--pre">This annotation works on the principles of Spring Aspect Oriented Programming. It takes 3 parameters, the key name, TTL1 and TTL2. The key name is a string java SpEL expression. How annotations and interceptor work is beyond the scope of this article. Following articles can be read for complete understanding -<br><a href="https://www.baeldung.com/spring-aop-annotation" data-href="https://www.baeldung.com/spring-aop-annotation" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">https://www.baeldung.com/spring-aop-annotation</a><br><a href="https://www.baeldung.com/spring-mvc-handlerinterceptor" data-href="https://www.baeldung.com/spring-mvc-handlerinterceptor" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">https://www.baeldung.com/spring-mvc-handlerinterceptor</a></p>
+                     <p name="5b63" id="5b63" class="graf graf--p graf-after--p">Picking up from part 1,<br>After passing through hystrix, before landing on downstream api call function, the request is intercepted by our cache interceptor.</p>
+                     <pre name="733e" id="733e" class="graf graf--pre graf-after--p">@Around(&quot;@annotation(customCache)&quot;)</pre>
+                     <p name="9d56" id="9d56" class="graf graf--p graf-after--pre">This request is only intercepted if the method is marked with our CustomCache annotation. The Interceptor obtains the key name from the SpEL expression and stores it, along with the TTL1 and TTL2 in the thread’s context (ThreadLocal)<br>The request now executes the api call function and reaches the common adapter layer.</p>
+                     <h3>Part 3 — Adapter Layer</h3>
+                     <p name="bd63" id="bd63">Here the following steps of execution take place. <br>Assumption: Caching is enabled</p>
+                     <ol class="postList">
+                        <li name="4dd6" id="4dd6" >If data exists in cache, check the time to live for the key. If time to live &lt; TTL1 then fetch from cache and return.</li>
+                        <li name="26de" id="26de">If data exists in cache but the time to live &gt; TTL1, then the data is considered not completely reliable (stale) and downstream service is hit to fetch the updated data. This fetched data is then saved back in redis. However, if now the downstream is down, then api fails and hystrix calls the fallback method of that particular api. In this fallback method we basically return the stale data, on the condition that sending this particular stale data in response is affordable. <br>As an example, say we are caching hotel data(name, location etc) and time to live has passed TTL1 but less than TTL2. Now as per the above explanation, we will be hitting the downstream service. In case of downstream failure, for our use case we can afford to display the old cached hotel data without causing any business impact. By this mechanism we ensure that our <strong class="markup--strong markup--li-strong">caching system is fault tolerant and in a way refreshable.</strong></li>
+                        <li name="6c8b" id="6c8b">If data does not exist then call the downstream service and save the data in redis.</li>
+                        <li name="cda5" id="cda5">If the hystrix circuit is open, then by default the fallback method is executed, till circuit closes. By returning data from redis in these fallback methods we ensure that incases of major disruptions in the downstream service, our api doesn’t breaks and the latencies remain within check.</li>
+                     </ol>
+                     <h3 name="1231" id="1231" class="graf graf--h3 graf-after--li">Result</h3>
+                     <p name="b96f" id="b96f" class="graf graf--p graf-after--h3">In the end we were able to reduce the average latencies by <strong class="markup--strong markup--p-strong">~60% to 450ms</strong>. Our system was able to handle downstream disruptions with slight increases in latencies.</p>
+                     <h3 name="864b" id="864b">Side Notes</h3>
+                     <ol class="postList">
+                        <li name="9d66" id="9d66">In future, we plan to make cache update non blocking by incorporating redis pub-sub model</li>
+                        <li name="36e9" id="36e9">Hystrix, provides caching mechanism too. However since hystrix is in maintenance mode we decided not to rely too heavily on it.</li>
+                        <li name="f14e" id="f14e">Java8 CompletableFuture is being used to make async parallel calls to various downstream services</li>
+                     </ol>
+                     <p name="c6f0" id="c6f0" class="graf graf--p graf-after--li graf--trailing">Folk’s that will be all from my end. Please feel free to contact in case of any doubt. Happy Coding :)</p>
+                  </div>
+               </div>
+            </section>
+
+
+                        <p class="entry__tags">
+                            <span>Post Tags</span>
+        
+                            <span class="entry__tag-list">
+                                <a href="#0">Redis</a>
+                                <a href="#0">Hystrix</a>
+                                <a href="#0">Spring Boot</a>
+                            </span>
+            
+                        </p>
+                    </div> <!-- end entry content -->
+
+                    <div class="entry__pagenav">
+                        <div class="entry__nav">
+                            <div class="entry__prev">
+                                <a href="#0" rel="prev">
+                                    <span>Previous Post</span>
+                                    Tips on Minimalist Design 
+                                </a>
+                            </div>
+                            <div class="entry__next">
+                                <a href="#0" rel="next">
+                                    <span>Next Post</span>
+                                    Less Is More 
+                                </a>
+                            </div>
+                        </div>
+                    </div> <!-- end entry__pagenav -->
+
+                    <div class="entry__related">
+                        <h3 class="h2">Related Articles</h3>
+
+                        <ul class="related">
+                            <li class="related__item">
+                                <a href="single-standard.html" class="related__link">
+                                    <img src="images/thumbs/masonry/walk-600.jpg" alt="">
+                                </a>
+                                <h5 class="related__post-title">Using Repetition and Patterns in Photography.</h5>
+                            </li>
+                            <li class="related__item">
+                                <a href="single-standard.html" class="related__link">
+                                    <img src="images/thumbs/masonry/dew-600.jpg" alt="">
+                                </a>
+                                <h5 class="related__post-title">Health Benefits Of Morning Dew.</h5>
+                            </li>
+                            <li class="related__item">
+                                <a href="single-standard.html" class="related__link">
+                                    <img src="images/thumbs/masonry/rucksack-600.jpg" alt="">
+                                </a>
+                                <h5 class="related__post-title">The Art Of Visual Storytelling.</h5>
+                            </li>
+                        </ul>
+                    </div> <!-- end entry related -->
+
+                </article> <!-- end column large-full entry-->
+
+
+                <!-- <div class="container">
+
+                    <div class="powr-comments" id="8ea8e967_1610394846"></div><script src="https://www.powr.io/powr.js?platform=bootstrap"></script>
+            
+                </div> <!-- end comments-wrap --> 
+            </main>
+
+        </div> <!-- end s-content -->
+
+
+        <!-- footer
+        ================================================== -->
+        <footer class="s-footer footer">
+            <div class="row">
+                <div class="column large-full footer__content">
+                    <div class="footer__copyright">
+                        <span>© Copyright Typerite 2019</span> 
+                        <span>Design by <a href="https://www.styleshout.com/">StyleShout</a></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="go-top">
+                <a class="smoothscroll" title="Back to Top" href="#top"></a>
+            </div>
+        </footer>
+
+    </div> <!-- end s-wrap -->
+
+
+    <!-- Java Script
+    ================================================== -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
+
+</body>

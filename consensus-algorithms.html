@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+
+    <!--- basic page needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <title>Standard Post - Typerite</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- mobile specific metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/vendor.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!-- script
+    ================================================== -->
+    <script src="js/modernizr.js"></script>
+
+    <!-- favicons
+    ================================================== -->
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+
+</head>
+
+<body class="ss-bg-white">
+
+    <!-- preloader
+    ================================================== -->
+    <div id="preloader">
+        <div id="loader" class="dots-fade">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <div id="top" class="s-wrap site-wrapper">
+
+        <!-- site header
+        ================================================== -->
+        <div id="site-header"></div>
+        <!-- site header end -->
+
+        <!-- site content
+        ================================================== -->
+        <div class="s-content content">
+            <main class="row content__page">
+                
+                <article class="column large-full entry format-standard">
+
+                    <div class="media-wrap entry__media">
+                        <div class="entry__post-thumb">
+                            <img src="images/p1_r2.jpg" 
+                                 srcset="images/p1_r2.jpg 2000w, 
+                                         images/p1_r2.jpg 1000w, 
+                                         images/p1_r2.jpg 500w" sizes="(max-width: 2000px) 90vw, 2000px" alt="">
+                        </div>
+                    </div>
+
+                    <div class="content__page-header entry__header">
+                        <h2 class="display-2 entry__title">
+                        Demystifying Consensus Algorithms and Their Implementations
+                        </h2>
+                        <ul class="entry__header-meta">
+                            <li class="author">By <a href="#0">Pratyush Bansal</a></li>
+                            <li class="date">January 09, 2021</li>
+                            <li class="cat-links">
+                                <a href="#0">System Design</a>
+                            </li>
+                        </ul>
+                    </div> <!-- end entry__header -->
+
+                    <div class="entry__content">
+
+                        <section data-field="body" class="e-content">
+            <section name="749e" class="section section--body section--first">
+   <div class="section-divider">
+      <hr class="section-divider">
+   </div>
+   <div class="section-content">
+      <div class="section-inner sectionLayout--insetColumn">
+         <h3 name="5aa8" id="5aa8" class="graf graf--h4 graf-after--h3 graf--subtitle">A deep dive into consensus algorithms and fundamentals of distributed computing</h3>
+         <p name="2a4b" id="2a4b" class="graf graf--p graf-after--figure"><em class="markup--em markup--p-em">What are consensus algorithms? <br>What are distributed databases?<br>How do Kubernetes and ZooKeeper store data in a fault-tolerant way?</em></p>
+         <p name="2b24" id="2b24" class="graf graf--p graf-after--p">These are some of the questions that we will try to answer in this article. Part A of the article will try to explain some of the common terminologies that you will hear in the current world of distributed computing. In Part B, we will explore the basic concepts of consensus algorithms. Part C will cover two famous consensus algorithms, <a href="https://en.wikipedia.org/wiki/Raft_%28algorithm%29" data-href="https://en.wikipedia.org/wiki/Raft_(algorithm)" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">Raft</a> and <a href="https://zookeeper.apache.org/doc/r3.4.13/zookeeperInternals.html" data-href="https://zookeeper.apache.org/doc/r3.4.13/zookeeperInternals.html" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">Zab</a>, and towards the end, we will explore how these algorithms power the distributed nature of <a href="https://zookeeper.apache.org/doc/r3.3.3/index.html" data-href="https://zookeeper.apache.org/doc/r3.3.3/index.html" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">ZooKeeper</a> and <a href="https://kubernetes.io/" data-href="https://kubernetes.io/" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">Kubernetes</a>.</p>
+         <p name="b1da" id="b1da" class="graf graf--p graf-after--p graf--trailing">These concepts might seem new, but knowledge of them will surely help you in your work or your next interview. A lot of textual content has been borrowed from the superb book written by Martin Kleppmann, titled <a href="https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/" data-href="https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">Designing Data-Intensive Applications</a>. Happy learning!</p>
+      </div>
+   </div>
+</section>
+<section name="4ff3" class="section section--body">
+   <div class="section-divider">
+      <hr class="section-divider">
+   </div>
+   <div class="section-content">
+      <div class="section-inner sectionLayout--insetColumn">
+         <h3 name="a6eb" id="a6eb" class="graf graf--h3 graf--leading">Part A. Terminologies Related to Distributed Databases</h3>
+         <h4 name="a0f9" id="a0f9" class="graf graf--h4 graf-after--h3"><strong class="markup--strong markup--h4-strong">Single Leader, Multiple Followers (Primary-Secondary Replication)</strong></h4>
+         <p name="1b99" id="1b99" class="graf graf--p graf-after--h4">In a single-leader replication, the leader (primary) replicates data to all of its followers (read replicas, secondary nodes). This is the most commonly used mode of replication. Whenever a new write comes to the primary node, it keeps that write to its local storage and sends the same data to all its replicas as a change stream or replication log. Each secondary then updates its own local copy of data in the same order as it was processed on the leader node.</p>
+         <h4 name="cb92" id="cb92" class="graf graf--h4 graf-after--p"><strong class="markup--strong markup--h4-strong">Split-brain problem</strong></h4>
+         <p name="29d3" id="29d3" class="graf graf--p graf-after--h4">In leader-follower situations, it could happen that two nodes both believe that they are the leader. This situation is called <em class="markup--em markup--p-em">split-brain. </em>It is dangerous if both leaders accept writes, and there is no process for resolving conflicts. Data is likely to be lost or corrupted.</p>
+         <p name="dab9" id="dab9" class="graf graf--p graf-after--p">But why would two nodes believe themselves to be the leader?</p>
+         <p name="5441" id="5441" class="graf graf--p graf-after--p">Let’s consider a situation where we have five nodes. Node A is the current leader and the rest are followers. Now suppose our Node A goes down. The rest of the nodes decide amongst themselves and promote Node B as the new leader. Now Node A comes back online. This node isn’t aware of what has happened until now and still believes itself to be the leader, which results in the system to be having two leader nodes.</p>
+         <h4 name="848e" id="848e" class="graf graf--h4 graf-after--p">Linearizability</h4>
+         <p name="9d16" id="9d16" class="graf graf--p graf-after--h4">The basic idea behind linearizability is to make a system appear as if there were only one copy of the data and that all operations in it are atomic. With this guarantee, even though there may be multiple replicas, in reality, the application does not need to worry about them.</p>
+         <p name="5476" id="5476" class="graf graf--p graf-after--p">Linearizability is important as it solves some of the very important use cases, such as lock and leader election, database uniqueness guarantees (uniqueness constraints), and cross-channel timing dependencies.</p>
+         <p name="cd65" id="cd65" class="graf graf--p graf-after--p">You might think that the simplest way to achieve this would be to really only use a single copy of the data. However, this approach is not fault-tolerant. If the node holding that one copy failed, the data would be lost, or at least inaccessible until the node was brought up again. Now the question arises, how to achieve linearizability in a replicated database.</p>
+         <ol class="postList">
+            <li name="cca0" id="cca0" class="graf graf--li graf-after--p">Consensus algorithms that we discuss later can implement linearizable storage safely.</li>
+            <li name="3ee1" id="3ee1" class="graf graf--li graf-after--li">Single leader replication: Here the leader has the primary copy of the data that is used for writes, and the followers maintain backup copies of the data on other nodes. If you make reads from the leader, or from synchronously updated followers, then they have the potential<em class="markup--em markup--li-em"> </em>to be linearizable.</li>
+         </ol>
+         <h4 name="65cc" id="65cc" class="graf graf--h4 graf-after--li"><strong class="markup--strong markup--h4-strong">Total order broadcast</strong></h4>
+         <p name="644a" id="644a" class="graf graf--p graf-after--h4">Single-leader replication determines a total order of operations by choosing one node as the leader and sequencing all operations on a single CPU core on the leader. The challenge then is how to scale the system if the throughput is greater than a single leader can handle, and also how to handle failover if the leader fails. In distributed systems, this problem is known as <em class="markup--em markup--p-em">total order broadcast </em>or <em class="markup--em markup--p-em">atomic broadcast</em>.</p>
+         <p name="6ea2" id="6ea2" class="graf graf--p graf-after--p">Total order broadcast is usually described as a protocol for exchanging messages between nodes. Informally, it requires that two safety properties always be satisfied:</p>
+         <ol class="postList">
+            <li name="7b66" id="7b66" class="graf graf--li graf-after--p"><strong class="markup--strong markup--li-strong">Reliable delivery.</strong> No messages are lost. If a message is delivered to one node, it is delivered to all nodes.</li>
+            <li name="fa01" id="fa01" class="graf graf--li graf-after--li"><strong class="markup--strong markup--li-strong">Totally ordered delivery.</strong> Messages are delivered to every node in the same order.</li>
+         </ol>
+         <p name="8baf" id="8baf" class="graf graf--p graf-after--li">Another way of looking at total order broadcast is that it is a way of creating a log<em class="markup--em markup--p-em"> </em>(as in a replication log) where delivering a message is like appending to the log. Since all nodes must deliver the same messages in the same order, all nodes can read the log and see the same sequence of messages.</p>
+         <h4 name="48a9" id="48a9" class="graf graf--h4 graf-after--p">Linearizability vs. total order broadcast</h4>
+         <p name="71ee" id="71ee" class="graf graf--p graf-after--h4">Total order broadcast is asynchronous. Messages are guaranteed to be delivered reliably in a fixed order, but there is no guarantee about when a message will be delivered (so one recipient may lag behind the others). By contrast, linearizability is a recency guarantee. A read is guaranteed to see the latest value written.</p>
+         <h4 name="4396" id="4396" class="graf graf--h4 graf-after--p"><strong class="markup--strong markup--h4-strong">Epoch number</strong></h4>
+         <p name="05b1" id="05b1" class="graf graf--p graf-after--h4">Almost all of the consensus algorithms internally make use of a leader. These protocols make use of epoch number and guarantee that within each epoch, the leader is unique.</p>
+         <p name="e06d" id="e06d" class="graf graf--p graf-after--p">1. Every time the current leader is thought to be dead, a vote is started among the nodes to elect a new leader.</p>
+         <p name="24ca" id="24ca" class="graf graf--p graf-after--p">2. This election is given an incremented epoch number, and thus epoch numbers are totally ordered and monotonically increasing.</p>
+         <p name="e536" id="e536" class="graf graf--p graf-after--p">3. If there is a conflict between two different leaders in two different epochs (perhaps because the previous leader actually wasn’t dead after all), then the leader with the higher epoch number prevails.</p>
+         <p name="9d54" id="9d54" class="graf graf--p graf-after--p graf--trailing">4. Before a leader is allowed to decide anything, it must collect votes from a quorum of nodes. A node votes in favour of a proposal only if it is not aware of any other leader with a higher epoch. This prevents the split-brain problem.</p>
+      </div>
+   </div>
+</section>
+<section name="d1fd" class="section section--body">
+   <div class="section-divider">
+      <hr class="section-divider">
+   </div>
+   <div class="section-content">
+      <div class="section-inner sectionLayout--insetColumn">
+         <h3 name="f52d" id="f52d" class="graf graf--h3 graf--leading"><strong class="markup--strong markup--h3-strong">Part B. Fault-Tolerant Consensus</strong></h3>
+         <figure name="6dbc" id="6dbc" class="graf graf--figure graf-after--h3">
+            <img class="graf-image" data-image-id="1*-G1_ECrdeYBSHf7edDwvLA.jpeg" data-width="993" data-height="283" alt="The word “consensus” followed by a question mark" src="https://cdn-images-1.medium.com/max/800/1*-G1_ECrdeYBSHf7edDwvLA.jpeg">
+            <figcaption class="imageCaption">Image source: <a href="https://www.flickr.com/photos/theselc" data-href="https://www.flickr.com/photos/theselc" class="markup--anchor markup--figure-anchor" rel="noopener" target="_blank">Sustainable Economics Law Center on Flickr</a></figcaption>
+         </figure>
+         <p name="aaa7" id="aaa7" class="graf graf--p graf-after--figure">Consensus means multiple servers agreeing on the same information. Generally, we can define a consensus algorithm by three steps:</p>
+         <ol class="postList">
+            <li name="8d34" id="8d34" class="graf graf--li graf-after--p"><strong class="markup--strong markup--li-strong">Elect. </strong>Processes elect a leader to make decisions. The leader proposes the next valid output value.</li>
+            <li name="fda3" id="fda3" class="graf graf--li graf-after--li"><strong class="markup--strong markup--li-strong">Vote. </strong>The non-faulty processes listen to the value being proposed by the leader, validate it, and propose it as the next valid value.</li>
+            <li name="0e2f" id="0e2f" class="graf graf--li graf-after--li"><strong class="markup--strong markup--li-strong">Decide. </strong>The non-faulty processes must come to a consensus on a single correct output value.</li>
+         </ol>
+         <p name="8b49" id="8b49" class="graf graf--p graf-after--li">A consensus algorithm must satisfy the following properties:</p>
+         <ol class="postList">
+            <li name="848f" id="848f" class="graf graf--li graf-after--p"><strong class="markup--strong markup--li-strong">Uniform agreement. </strong>No two nodes decide differently.</li>
+            <li name="1b79" id="1b79" class="graf graf--li graf-after--li"><strong class="markup--strong markup--li-strong">Integrity. </strong>No node decides twice.</li>
+            <li name="662e" id="662e" class="graf graf--li graf-after--li"><strong class="markup--strong markup--li-strong">Validity. </strong>If a node decides value <em class="markup--em markup--li-em">v</em>, then <em class="markup--em markup--li-em">v</em> was proposed by some node.</li>
+            <li name="4144" id="4144" class="graf graf--li graf-after--li"><strong class="markup--strong markup--li-strong">Termination.<em class="markup--em markup--li-em"> </em></strong>Every node that does not crash eventually decides some value.</li>
+         </ol>
+         <p name="28a4" id="28a4" class="graf graf--p graf-after--li">Consensus algorithms are a huge breakthrough for distributed systems. They bring concrete safety properties (agreement, integrity, and validity) to systems and they nevertheless remain fault-tolerant. They provide total order broadcast, and therefore they can also implement linearizable atomic operations in a fault-tolerant way.</p>
+         <h4 name="0fe5" id="0fe5" class="graf graf--h4 graf-after--p"><strong class="markup--strong markup--h4-strong">Assumptions</strong></h4>
+         <ol class="postList">
+            <li name="346f" id="346f" class="graf graf--li graf-after--h4">There is a limit to the number of failures that an algorithm can tolerate. Any consensus algorithm requires at least a majority of nodes to be functioning correctly in order to assure termination.</li>
+            <li name="6e75" id="6e75" class="graf graf--li graf-after--li">Most consensus algorithms assume that there are no Byzantine faults.</li>
+         </ol>
+         <h4 name="a759" id="a759" class="graf graf--h4 graf-after--li">Limitations</h4>
+         <p name="b521" id="b521" class="graf graf--p graf-after--h4">Consensus algorithms have some limitations associated with them, which restrict their usability in some situations.</p>
+         <ol class="postList">
+            <li name="7699" id="7699" class="graf graf--li graf-after--p">The process by which nodes vote on proposals before they are decided is a kind of synchronous replication, leading to performance issues.</li>
+            <li name="55da" id="55da" class="graf graf--li graf-after--li">Consensus systems always require a strict majority to operate. This means, in a quorum of four nodes, you need a minimum of three nodes to operate.</li>
+            <li name="6d69" id="6d69" class="graf graf--li graf-after--li graf--trailing">Consensus systems generally rely on timeouts to detect failed nodes. In environments with highly variable network delays, it often happens that a node falsely believes the leader to have failed due to a transient network issue. Frequent leader elections in such scenarios result in terrible performance because the system can end up spending more time choosing a leader than doing any useful work.</li>
+         </ol>
+      </div>
+   </div>
+</section>
+<section name="7ab6" class="section section--body">
+   <div class="section-divider">
+      <hr class="section-divider">
+   </div>
+   <div class="section-content">
+      <div class="section-inner sectionLayout--insetColumn">
+         <h3 name="2933" id="2933" class="graf graf--h3 graf--leading"><strong class="markup--strong markup--h3-strong">Part C. Consensus Algorithms and Implementations</strong></h3>
+         <p name="5835" id="5835" class="graf graf--p graf-after--h3">Finally, the part we are all waiting for: understanding how everything we have read till now forms the backbone of various consensus algorithms. Then we look at the workings of various commonly used coordinations services: ZooKeeper and <a href="https://etcd.io/" data-href="https://etcd.io/" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">etcd</a>.</p>
+         <h4 name="67c9" id="67c9" class="graf graf--h4 graf-after--p"><strong class="markup--strong markup--h4-strong">Raft consensus algorithm (2014)</strong></h4>
+         <p name="37b2" id="37b2" class="graf graf--p graf-after--h4">Raft is a single-leader algorithm. A node in the Raft algorithm can be in one of the three states:</p>
+         <p name="2c52" id="2c52" class="graf graf--p graf-after--p">1. Follower</p>
+         <p name="95ff" id="95ff" class="graf graf--p graf-after--p">2. Candidate</p>
+         <p name="5dd6" id="5dd6" class="graf graf--p graf-after--p">3. Leader</p>
+         <figure name="42b5" id="42b5" class="graf graf--figure graf-after--p">
+            <img class="graf-image" data-image-id="1*-cpPP3V-NMTx7YTcoGxVVA.jpeg" data-width="491" data-height="301" alt="diagram illustrating the Raft consensus algorithm" src="https://cdn-images-1.medium.com/max/800/1*-cpPP3V-NMTx7YTcoGxVVA.jpeg">
+            <figcaption class="imageCaption">Raft consensus algorithm</figcaption>
+         </figure>
+         <p name="af09" id="af09" class="graf graf--p graf-after--figure">The leader keeps sending a heartbeat to all the followers at regular intervals specified by the heartbeat timeout. All messages are communicated through this heartbeat. The Raft algorithm follows the following steps.</p>
+         <ol class="postList">
+            <li name="a19d" id="a19d" class="graf graf--li graf-after--p">All nodes start in the follower state.</li>
+            <li name="40f0" id="40f0" class="graf graf--li graf-after--li">If followers don’t hear from a leader, then they can become a candidate. The <em class="markup--em markup--li-em">election timeout</em> is the amount of time a follower waits until becoming a candidate. It is randomised to be between 150ms and 300ms.</li>
+            <li name="35d1" id="35d1" class="graf graf--li graf-after--li">The candidate then starts a new election term. It votes for itself and sends out <em class="markup--em markup--li-em">request vote</em> messages to other nodes. Nodes reply with their vote.</li>
+            <li name="1bfd" id="1bfd" class="graf graf--li graf-after--li">The candidate becomes the leader if it gets votes from a majority of nodes. This process is called <em class="markup--em markup--li-em">leader election</em><strong class="markup--strong markup--li-strong">. </strong>All changes go through the leader, as shown in the figure above.</li>
+            <li name="23d7" id="23d7" class="graf graf--li graf-after--li">During a leader election, the request vote also contains information about the candidate’s log to figure out which one is the latest. If the candidate requesting the vote has less updated data than the follower from which it is requesting vote, the follower simply doesn’t vote for the said candidate.</li>
+            <li name="5e1c" id="5e1c" class="graf graf--li graf-after--li">Each change is added as an entry in the leader’s log. The log entry is initially uncommitted.</li>
+            <li name="1e80" id="1e80" class="graf graf--li graf-after--li">To commit, the leader first replicates this value to follower nodes.</li>
+            <li name="58ba" id="58ba" class="graf graf--li graf-after--li">The leader waits until a majority of nodes have written the entry. After receiving the response, the entry is now committed.</li>
+            <li name="5571" id="5571" class="graf graf--li graf-after--li">The leader then updates the followers that the value has been committed. Follower nodes then commit this value respectively.</li>
+            <li name="7e39" id="7e39" class="graf graf--li graf-after--li">The cluster has now come to a consensus about the system state. This process is called <em class="markup--em markup--li-em">log replication</em>.</li>
+            <li name="2bf4" id="2bf4" class="graf graf--li graf-after--li">The split-brain problem is solved because in the cluster at any moment only one node can achieve a majority. If two nodes have equal votes, then the voting happens again.</li>
+         </ol>
+         <p name="5df0" id="5df0" class="graf graf--p graf-after--li">As you must have realised, this algorithm uses the concept of two-phase commit that we previously explored. First, a round of votes is initiated from a leader. After the acceptance of more than half of the votes, a commit is launched.</p>
+         <p name="4b04" id="4b04" class="graf graf--p graf-after--p">It is being used in a variety of systems such as etcd and <a href="https://www.consul.io/" data-href="https://www.consul.io/" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">Consul</a> (Hashicorp). MongoDB’s replication is also widely influenced by the Raft algorithm</p>
+         <h4 name="b2ec" id="b2ec" class="graf graf--h4 graf-after--p"><strong class="markup--strong markup--h4-strong">ZAB consensus algorithm (2007)</strong></h4>
+         <p name="c140" id="c140" class="graf graf--p graf-after--h4">ZAB (ZooKeeper Atomic BroadCast) is a consensus protocol used in ZooKeeper. ZAB is a dedicated protocol for ZooKeeper and hence its usage is limited to ZooKeeper. ZAB was born in 2007 along with ZooKeeper.</p>
+         <figure name="5c99" id="5c99" class="graf graf--figure graf-after--p">
+            <img class="graf-image" data-image-id="0*621_LZOd2O57oj4K.png" data-width="600" data-height="232" alt="diagram illustrating the ZAB consensus algorithm" src="https://cdn-images-1.medium.com/max/800/0*621_LZOd2O57oj4K.png">
+            <figcaption class="imageCaption">ZAB algorithm (Source: <a href="https://www.alibabacloud.com/" data-href="https://www.alibabacloud.com/" class="markup--anchor markup--figure-anchor" rel="noopener" target="_blank">Alibabacloud</a>)</figcaption>
+         </figure>
+         <ol class="postList">
+            <li name="f4fb" id="f4fb" class="graf graf--li graf-after--figure">It works on the leader-follower principle.</li>
+            <li name="b170" id="b170" class="graf graf--li graf-after--li">The epoch number is termed as <em class="markup--em markup--li-em">zxid</em>.</li>
+            <li name="f2c4" id="f2c4" class="graf graf--li graf-after--li">It enables log replication by using a two-phase commit, similar to the Raft algorithm.</li>
+            <li name="656e" id="656e" class="graf graf--li graf-after--li">If the leader fails in the commit phase and this write operation has been committed on at least one follower, then this follower will definitely be selected as a leader because its zxid is the greatest. After being selected as the leader, this follower lets all followers commit this message.</li>
+            <li name="e350" id="e350" class="graf graf--li graf-after--li">Unlike Raft, ZAB logs only require the append-only capability.</li>
+            <li name="3371" id="3371" class="graf graf--li graf-after--li graf--trailing">It implements total order broadcast.</li>
+         </ol>
+      </div>
+   </div>
+</section>
+<section name="abec" class="section section--body">
+   <div class="section-divider">
+      <hr class="section-divider">
+   </div>
+   <div class="section-content">
+      <div class="section-inner sectionLayout--insetColumn">
+         <h3 name="e71a" id="e71a" class="graf graf--h3 graf--leading"><strong class="markup--strong markup--h3-strong">Consensus Algorithms — Implementations</strong></h3>
+         <figure name="7666" id="7666" class="graf graf--figure graf-after--h3">
+            <img class="graf-image" data-image-id="0*7RUvTXSRJIdgb6w5.png" data-width="640" data-height="216" alt="table of systems showing consensus protocols and implementations used for each" src="https://cdn-images-1.medium.com/max/800/0*7RUvTXSRJIdgb6w5.png">
+            <figcaption class="imageCaption">Image source: “<a href="http://muratbuffalo.blogspot.com/2015/10/consensus-in-wild.html" data-href="http://muratbuffalo.blogspot.com/2015/10/consensus-in-wild.html" class="markup--anchor markup--figure-anchor" rel="noopener" target="_blank">Consensus in the wild</a>”</figcaption>
+         </figure>
+         <p name="8bdb" id="8bdb" class="graf graf--p graf-after--figure">As we can see from the above chart, the consensus algorithms we have explored until now have a wide range of implementations such ZooKeeper, etcd, and <a href="https://static.googleusercontent.com/media/research.google.com/en//archive/chubby-osdi06.pdf" data-href="https://static.googleusercontent.com/media/research.google.com/en//archive/chubby-osdi06.pdf" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">Chubby</a>. They are indirectly used to solve various issues in distributed systems such as service discovery, coordination, locks, failure detection, and master election.</p>
+         <h4 name="d3ac" id="d3ac" class="graf graf--h4 graf-after--p"><strong class="markup--strong markup--h4-strong">etcd (Raft)</strong></h4>
+         <p name="6412" id="6412" class="graf graf--p graf-after--h4">The official website defines it as</p>
+         <blockquote name="e8fc" id="e8fc" class="graf graf--blockquote graf--startsWithDoubleQuote graf-after--p">“a strongly consistent, distributed key-value store that provides a reliable way to store data that needs to be accessed by a distributed system or cluster of machines. It gracefully handles leader elections during network partitions and can tolerate machine failure, even in the leader node. Communication between etcd machines is handled via the Raft consensus algorithm.”</blockquote>
+         <p name="3ecb" id="3ecb" class="graf graf--p graf-after--blockquote">Let us now take a look at some of the popular tools/software where it is being used.</p>
+         <p name="1696" id="1696" class="graf graf--p graf-after--p"><h3 class="markup--strong markup--p-strong">Kubernetes</h3></p>
+         <p name="28e6" id="28e6" class="graf graf--p graf-after--p">etcd is used as the back end for service discovery and stores all the clusters state and configurations, essentially as its database.</p>
+         <p name="0455" id="0455" class="graf graf--p graf-after--p">It uses etcd’s <em class="markup--em markup--p-em">watch</em> functionality to monitor changes to either of these two things. If they diverge, Kubernetes makes changes to reconcile the actual state and the desired state.</p>
+         <p name="f6e8" id="f6e8" class="graf graf--p graf-after--p">Anything you might read from a <code class="markup--code markup--p-code">kubectl get xyz</code> command is stored in etcd.</p>
+         <p name="630e" id="630e" class="graf graf--p graf-after--p">Any change you make via <code class="markup--code markup--p-code">kubectl create</code> will cause an entry in etcd to be updated.</p>
+         <p name="2581" id="2581" class="graf graf--p graf-after--p">Any node crashing or process dying causes values in etcd to be changed.</p>
+         <figure name="3050" id="3050" class="graf graf--figure graf-after--p">
+            <img class="graf-image" data-image-id="1*W8Z3vhZ3qG-1vQJkTJgLBw.png" data-width="482" data-height="322" alt="diagram of Kubernetes pod creation lifecycle" src="https://cdn-images-1.medium.com/max/800/1*W8Z3vhZ3qG-1vQJkTJgLBw.png">
+            <figcaption class="imageCaption">Kubernetes pod creation lifecycle: “<a href="https://blog.heptio.com/core-kubernetes-jazz-improv-over-orchestration-a7903ea92ca" data-href="https://blog.heptio.com/core-kubernetes-jazz-improv-over-orchestration-a7903ea92ca" class="markup--anchor markup--figure-anchor" rel="noopener" target="_blank">Core Kubernetes</a>”</figcaption>
+         </figure>
+         <p name="1fe1" id="1fe1" class="graf graf--p graf-after--figure"><h3 class="markup--strong markup--p-strong">ZooKeeper (Zab)</h3></p>
+         <p name="c8f2" id="c8f2" class="graf graf--p graf-after--p">The official website defines it as</p>
+         <blockquote name="052a" id="052a" class="graf graf--blockquote graf--startsWithDoubleQuote graf-after--p">“a centralised service for maintaining configuration information, naming, providing distributed synchronization, and providing group services.”</blockquote>
+         <p name="d8f9" id="d8f9" class="graf graf--p graf-after--blockquote">ZooKeeper is itself a technical marvel, so we won’t be going into complete in-depth details of it.</p>
+         <ol class="postList">
+            <li name="6619" id="6619" class="graf graf--li graf-after--p">ZooKeeper maintains cluster configuration info which is shared across all the nodes in the cluster.</li>
+            <li name="7670" id="7670" class="graf graf--li graf-after--li">It can be used for solving distributed synchronization problems in the cluster by using locks, queues, etc.</li>
+            <li name="94ec" id="94ec" class="graf graf--li graf-after--li">ZooKeeper also helps in group service with the selection of a primary in the cluster (the leader election process).</li>
+            <li name="1209" id="1209" class="graf graf--li graf-after--li">Provides change notification capabilities. Clients can find out when another client joins the cluster (based on the value it writes to ZooKeeper) or if another client fails.</li>
+            <li name="1153" id="1153" class="graf graf--li graf-after--li">It works in two modes: replicated mode (leader-follower) and standalone mode (single ZooKeeper server).</li>
+         </ol>
+         <figure name="06a5" id="06a5" class="graf graf--figure graf-after--li">
+            <img class="graf-image" data-image-id="0*F75bu9EtY8mG7UiY.jpg" data-width="600" data-height="185" alt="diagram of ZooKeeper architecture" src="https://cdn-images-1.medium.com/max/800/0*F75bu9EtY8mG7UiY.jpg">
+            <figcaption class="imageCaption">ZooKeeper architecture: <a href="https://zookeeper.apache.org/doc/r3.5.1-alpha/zookeeperOver.html" data-href="https://zookeeper.apache.org/doc/r3.5.1-alpha/zookeeperOver.html" class="markup--anchor markup--figure-anchor" rel="noopener" target="_blank">ZooKeeper Apache</a></figcaption>
+         </figure>
+         <p name="cf92" id="cf92" class="graf graf--p graf-after--figure">As an application developer, you will rarely need to use ZooKeeper directly because it is actually not well suited as a general-purpose database. It is more likely that you will end up relying on it indirectly via some other project. For example, HBase, Hadoop YARN, OpenStack Nova, Akka, and Kafka all rely on ZooKeeper running in the background.</p>
+         <p name="c71a" id="c71a" class="graf graf--p graf-after--p">Explore more at <a href="https://dzone.com/articles/an-introduction-to-zookeeper-1" data-href="https://dzone.com/articles/an-introduction-to-zookeeper-1" class="markup--anchor markup--p-anchor" rel="nofollow noopener" target="_blank">https://dzone.com/articles/an-introduction-to-zookeeper-1</a></p>
+         <p name="449e" id="449e" class="graf graf--p graf-after--p"><h3 class="markup--strong markup--p-strong">Kafka</h3></p>
+         <blockquote name="254a" id="254a" class="graf graf--blockquote graf--startsWithDoubleQuote graf-after--p">“Apache Kafka is an open-source distributed event streaming platform used by thousands of companies for high-performance data pipelines, streaming analytics, data integration, and mission-critical applications.” — <a href="https://kafka.apache.org/#:~:text=Apache%20Kafka%20is%20an%20open,%2C%20and%20mission-critical%20applications" data-href="https://kafka.apache.org/#:~:text=Apache%20Kafka%20is%20an%20open,%2C%20and%20mission-critical%20applications" class="markup--anchor markup--blockquote-anchor" rel="noopener" target="_blank">Apache Kafka website</a></blockquote>
+         <p name="ab3b" id="ab3b" class="graf graf--p graf-after--blockquote">Why is ZooKeeper necessary for Apache Kafka?</p>
+         <ol class="postList">
+            <li name="f6e3" id="f6e3" class="graf graf--li graf-after--p">Controller election: The controller is one of the most important broking entities in a Kafka ecosystem, and it also has the responsibility to maintain the leader-follower relationship across all the partitions.</li>
+            <li name="8d51" id="8d51" class="graf graf--li graf-after--li">Configuration of topics: It includes the configuration regarding all the topics, including the list of existing topics, like the number of partitions for each topic, the location of all the replicas, etc.</li>
+            <li name="7c8d" id="7c8d" class="graf graf--li graf-after--li">Access control lists: Access control lists or ACLs for all the topics are also maintained within ZooKeeper.</li>
+            <li name="2bd5" id="2bd5" class="graf graf--li graf-after--li">Membership of the cluster: ZooKeeper also maintains a list of all the brokers that are functioning at any given moment and are a part of the cluster.</li>
+         </ol>
+         <p name="aff3" id="aff3" class="graf graf--p graf-after--li graf--trailing">However, Kafka is soon planning to remove the dependency on ZooKeeper in order to simplify its architecture. Some amazing articles related to working of Kafka can be found on their blog <a href="https://www.confluent.io/blog/category/apache-kafka" data-href="https://www.confluent.io/blog/category/apache-kafka" class="markup--anchor markup--p-anchor" rel="nofollow noopener" target="_blank">https://www.confluent.io/blog/category/apache-kafka</a></p>
+      </div>
+   </div>
+</section>
+<section name="bcf1" class="section section--body">
+   <div class="section-divider">
+      <hr class="section-divider">
+   </div>
+   <div class="section-content">
+      <div class="section-inner sectionLayout--insetColumn">
+         <p name="bfd3" id="bfd3" class="graf graf--p graf--leading graf--trailing">That&#39;s all from my side, folks. I hope this article made sense to you. Please feel free to give your feedback.</p>
+      </div>
+   </div>
+</section>
+<section name="741d" class="section section--body section--last">
+   <div class="section-divider">
+      <hr class="section-divider">
+   </div>
+   <div class="section-content">
+      <div class="section-inner sectionLayout--insetColumn">
+         <h3 name="66e9" id="66e9" class="graf graf--h3 graf--leading"><strong class="markup--strong markup--h3-strong">References</strong></h3>
+         <ol class="postList">
+            <li name="9ee9" id="9ee9" class="graf graf--li graf-after--h3">Designing Data-Intensive Applications (Martin Kleppmann)</li>
+            <li name="aae5" id="aae5" class="graf graf--li graf-after--li"><a href="https://dzone.com/articles/a-brief-analysis-of-consensus-protocol-from-logica" data-href="https://dzone.com/articles/a-brief-analysis-of-consensus-protocol-from-logica" class="markup--anchor markup--li-anchor" rel="nofollow noopener" target="_blank">https://dzone.com/articles/a-brief-analysis-of-consensus-protocol-from-logica</a></li>
+            <li name="4264" id="4264" class="graf graf--li graf-after--li"><a href="https://link.medium.com/2uXLjLHlhab" data-href="https://link.medium.com/2uXLjLHlhab" class="markup--anchor markup--li-anchor" rel="noopener" target="_blank">https://link.medium.com/2uXLjLHlhab</a></li>
+            <li name="9367" id="9367" class="graf graf--li graf-after--li graf--trailing"><a href="http://thesecretlivesofdata.com/raft/" data-href="http://thesecretlivesofdata.com/raft/" class="markup--anchor markup--li-anchor" rel="nofollow noopener" target="_blank">http://thesecretlivesofdata.com/raft/</a></li>
+            <li name="9367" id="9367" class="graf graf--li graf-after--li graf--trailing"><a href="https://analyticsindiamag.com/blockchain-consensus-algorithms/" data-href="https://analyticsindiamag.com/blockchain-consensus-algorithms/" class="markup--anchor markup--li-anchor" rel="nofollow noopener" target="_blank">Cover Image source: Analytics India Magazine</a></li>
+            
+         </ol>
+      </div>
+   </div>
+</section>
+</section>
+
+
+                        <p class="entry__tags">
+                            <span>Post Tags</span>
+        
+                            <span class="entry__tag-list">
+                                <a href="#0">Redis</a>
+                                <a href="#0">Hystrix</a>
+                                <a href="#0">Spring Boot</a>
+                            </span>
+            
+                        </p>
+                    </div> <!-- end entry content -->
+
+                    <div class="entry__pagenav">
+                        <div class="entry__nav">
+                            <div class="entry__prev">
+                                <a href="#0" rel="prev">
+                                    <span>Previous Post</span>
+                                    Tips on Minimalist Design 
+                                </a>
+                            </div>
+                            <div class="entry__next">
+                                <a href="#0" rel="next">
+                                    <span>Next Post</span>
+                                    Less Is More 
+                                </a>
+                            </div>
+                        </div>
+                    </div> <!-- end entry__pagenav -->
+
+                    <div class="entry__related">
+                        <h3 class="h2">Related Articles</h3>
+
+                        <ul class="related">
+                            <li class="related__item">
+                                <a href="single-standard.html" class="related__link">
+                                    <img src="images/thumbs/masonry/walk-600.jpg" alt="">
+                                </a>
+                                <h5 class="related__post-title">Using Repetition and Patterns in Photography.</h5>
+                            </li>
+                            <li class="related__item">
+                                <a href="single-standard.html" class="related__link">
+                                    <img src="images/thumbs/masonry/dew-600.jpg" alt="">
+                                </a>
+                                <h5 class="related__post-title">Health Benefits Of Morning Dew.</h5>
+                            </li>
+                            <li class="related__item">
+                                <a href="single-standard.html" class="related__link">
+                                    <img src="images/thumbs/masonry/rucksack-600.jpg" alt="">
+                                </a>
+                                <h5 class="related__post-title">The Art Of Visual Storytelling.</h5>
+                            </li>
+                        </ul>
+                    </div> <!-- end entry related -->
+
+                </article> <!-- end column large-full entry-->
+
+
+                <!-- <div class="container">
+
+                    <div class="powr-comments" id="8ea8e967_1610394846"></div><script src="https://www.powr.io/powr.js?platform=bootstrap"></script>
+            
+                </div> <!-- end comments-wrap --> 
+            </main>
+
+        </div> <!-- end s-content -->
+
+
+        <!-- footer
+        ================================================== -->
+        <footer class="s-footer footer">
+            <div class="row">
+                <div class="column large-full footer__content">
+                    <div class="footer__copyright">
+                        <span>© Copyright Typerite 2019</span> 
+                        <span>Design by <a href="https://www.styleshout.com/">StyleShout</a></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="go-top">
+                <a class="smoothscroll" title="Back to Top" href="#top"></a>
+            </div>
+        </footer>
+
+    </div> <!-- end s-wrap -->
+
+
+    <!-- Java Script
+    ================================================== -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
+
+</body>

