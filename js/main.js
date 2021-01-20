@@ -280,7 +280,7 @@
                 <div class="header__top">
                     <div class="header__logo">
                         <a class="site-logo" href="index.html">
-                            <span class="logo-text">About All Tech.</span>
+                            <span class="logo-text">About All. Tech</span>
                         </a>
                     </div>
 
