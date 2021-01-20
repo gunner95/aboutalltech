@@ -270,6 +270,29 @@
         });
     };
 
+    var footer = function() {
+        var x = document.getElementById('footer');
+        if (x != null){
+
+            x.innerHTML = `
+            <footer class="s-footer">
+                <div class="row">
+                    <div class="column large-full footer__content">
+                        <div class="footer__copyright">
+                            <span>© Copyright AboutAll.Tech 2021</span> 
+                            <span>Design by <a href="https://www.styleshout.com/">StyleShout</a></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="go-top">
+                    <a class="smoothscroll" title="Back to Top" href="#top"></a>
+                </div>
+            </footer>
+            `
+        }
+    }
+
     var leftNav = function() {
         var x = document.getElementById('site-header');
         if (x != null){
@@ -358,6 +381,7 @@
     (function clInit() {
 
         leftNav();
+        footer();
         ssPreloader();
         ssPrettyPrint();
         ssSearch();
