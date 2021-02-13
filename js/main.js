@@ -322,8 +322,8 @@
                     </div>  <!-- end header__search -->
 
                     <!-- toggles -->
-                    <!--<a href="#0" class="header__search-trigger"></a>
-                    <a href="#0" class="header__menu-toggle"><span>Menu</span></a> -->
+                    <!-- <a href="#0" class="header__search-trigger"></a> -->
+                    <a href="#0" class="header__menu-toggle"><span>Menu</span></a>
 
                 </div>
                 <nav class="header__nav-wrap">
