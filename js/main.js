@@ -279,7 +279,7 @@
                 <div class="row">
                     <div class="column large-full footer__content">
                         <div class="footer__copyright">
-                            <span>© Copyright AboutAll.Tech 2021</span> 
+                            <span>© Copyright Pratyush Bansal 2021</span> 
                             <span>Design by <a href="https://www.styleshout.com/">StyleShout</a></span>
                         </div>
                     </div>
@@ -339,7 +339,6 @@
                                 <li><a href="browser-storage.html">Browser Storage</a></li>
                                 </ul>
                             </li>
-                            <li><a href="page-about.html" title="">About</a></li>
                             <li><a href="page-contact.html" title="">Contact</a></li>
                         </ul> <!-- end header__nav -->
 
