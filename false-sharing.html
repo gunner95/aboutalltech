@@ -1,0 +1,425 @@
+    <!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+
+    <!--- basic page needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <title>Standard Post - Typerite</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- mobile specific metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/vendor.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!-- script
+    ================================================== -->
+    <script src="js/modernizr.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9MD6L46WRM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-9MD6L46WRM');
+    </script>
+
+    <!-- favicons
+    ================================================== -->
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+
+</head>
+
+<body class="ss-bg-white">
+
+    <!-- preloader
+    ================================================== -->
+    <div id="preloader">
+        <div id="loader" class="dots-fade">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <div id="top" class="s-wrap site-wrapper">
+
+        <!-- site header
+        ================================================== -->
+        <div id="site-header"></div>
+        <!-- site header end -->
+
+        <!-- site content
+        ================================================== -->
+        <div class="s-content content">
+            <main class="row content__page">
+                
+                <article class="column large-full entry format-standard">
+
+                    <div class="media-wrap entry__media">
+                        <div class="entry__post-thumb">
+                            <img src="images/p1_r2.jpg" 
+                                 srcset="images/cpu_memory.jpeg 2000w, 
+                                         images/cpu_memory.jpeg 1000w, 
+                                         images/cpu_memory.jpeg 500w" sizes="(max-width: 2000px) 90vw, 2000px" alt="">
+                        </div>
+                    </div>
+
+                    <div class="content__page-header entry__header">
+                        <h2 class="display-2 entry__title">
+                        False Sharing — The lesser known performance killer
+                        </h2>
+                        <ul class="entry__header-meta">
+                            <li class="author">By <a href="#0">Pratyush Bansal</a></li>
+                            <li class="date">May 14, 2021</li>
+                            <li class="cat-links">
+                                <a href="#0">Performance</a>
+                            </li>
+                        </ul>
+                    </div> <!-- end entry__header -->
+
+                    <div class="entry__content">
+
+                        <section data-field="body" class="e-content">
+                            <section name="51f8" class="section section--body section--first">
+                                    <div class="section-divider"><hr class="section-divider" /></div>
+                                    <div class="section-content">
+                                        <div class="section-inner sectionLayout--insetColumn">
+                                            <p name="acf5" id="acf5" class="graf graf--p graf-after--h3">
+                                                In this article we will be looking into the concept of false sharing and how it could hamper your applications performance. We will also be exploring java’s Contended annotation for
+                                                prevention of false sharing.
+                                            </p>
+                                            <h2 name="d96a" id="d96a" class="graf graf--h3 graf-after--figure"><strong class="markup--strong markup--h3-strong">What is False sharing?</strong></h2>
+                                            <p name="1842" id="1842" class="graf graf--p graf-after--h3">Let us look how wikipedia defines this concept -</p>
+                                            <blockquote name="2a1d" id="2a1d" class="graf graf--blockquote graf-after--p">
+
+                                                <strong class="markup--strong markup--p-strong">False sharing</strong> is a performance-degrading usage pattern that can arise in systems with distributed,
+                                                <a
+                                                    href="https://medium.com/r/?url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FCache_coherence"
+                                                    data-href="https://medium.com/r/?url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FCache_coherence"
+                                                    class="markup--anchor markup--p-anchor"
+                                                    title="Cache coherence"
+                                                    rel="nofollow"
+                                                    target="_blank"
+                                                >
+                                                    coherent caches
+                                                </a>
+                                                at the size of the smallest resource block managed by the caching mechanism. When a system participant attempts to periodically access data that will never be altered by another party, but
+                                                those data share a cache block with data that <em class="markup--em markup--p-em">are</em> altered, the caching protocol may force the first participant to reload the whole unit despite a lack
+                                                of logical necessity. The caching system is unaware of activity within this block and forces the first participant to bear the caching system overhead required by true shared access of a
+                                                resource.
+                                            </blockquote>
+                                            <p name="c7c3" id="c7c3" class="graf graf--p graf-after--p graf--trailing">Let us look at some of the related concepts before diving deep into false sharing.</p>
+                                        </div>
+                                    </div>
+                            </section>
+                            <section name="f553" class="section section--body">
+                                <div class="section-divider"><hr class="section-divider" /></div>
+                                <div class="section-content">
+                                    <div class="section-inner sectionLayout--insetColumn">
+                                        <h2 name="be8e" id="be8e" class="graf graf--h3 graf--leading">Hardware Caching and Cache Line</h2>
+                                        <p name="d575" id="d575" class="graf graf--p graf-after--h3">
+                                            We all know that reading and writing from machine’s memory directly is a slow process, though much faster than reading from the hard disks. To account for this slow memory access, most
+                                            processors today use caching to improve the performance.
+                                        </p>
+                                        <p name="341f" id="341f" class="graf graf--p graf-after--p">
+                                            Machines these days use multiple level of caching, referred to as L1, L2, L3 and L4. L1 is the fastest but also the most expensive, so machines tend to have low size of L1 cache. L2 on the
+                                            other hand is slower as compared to L1 but is less expensive, hence the machines tend have larger size of L2 cache.
+                                        </p>
+                                        <p name="263f" id="263f" class="graf graf--p graf-after--p">
+                                            When data is read from memory, the requested data as well as data around it is loaded from memory into the caches, then the program is served from the caches. This is referred to as a cache
+                                            line. A cache line is formally defined as the unit of data transfer between the cache and main memory. This loading of a whole cache line rather than individual bytes can dramatically improve
+                                            application performance. On our laptop the cache line size for both L1 and L2 is 64 bytes. Since applications frequently read bytes from memory in a sequential manner, they can avoid hitting
+                                            main memory on every request by loading a series of data in a cache line. This increases the chance of the required data already being present in the cache.
+                                        </p>
+                                        <p name="465c" id="465c" class="graf graf--p graf-after--p">
+                                            You can check your laptops hardware cache details by running the following command, sysctl -a | grep cache. My system(Macbook pro 2015) has an L1 cache(L1I and L1D) of 32KB, L2 cache of 256KB
+                                            and L3 cache of 3MB
+                                        </p>
+                                        <figure name="42b5" id="42b5" class="graf graf--figure graf-after--p">
+                                            <img src="images/fs_5.png"> 
+                                        </figure>
+                                    </div>
+                                </div>
+                            </section>
+                            <section name="0f54" class="section section--body">
+                                <div class="section-divider"><hr class="section-divider" /></div>
+                                <div class="section-content">
+                                    <div class="section-inner sectionLayout--insetColumn">
+                                        <h2 name="8d2c" id="8d2c" class="graf graf--h3 graf--leading">Cache Coherency</h2>
+                                        <p name="2de9" id="2de9" class="graf graf--p graf-after--h3">
+                                            In a shared memory multiprocessor system with a separate cache memory for each processor, it is possible to have many copies of shared data: one copy in the main memory and one in the local
+                                            cache of each processor that requested it. When one of the copies of data is changed, the other copies must reflect that change. Cache coherence is the mechanism which ensures that the changes
+                                            in the shared data are propagated throughout the system in a timely fashion. This ensure that cache data in main memory is in sync with data in other caches
+                                        </p>
+                                        <figure name="bf69" id="bf69" class="graf graf--figure graf-after--p">
+                                            <img src="images/fs_6.png"> 
+                                            
+                                            <figcaption class="imageCaption">
+                                                src:
+                                                <a
+                                                    href="https://en.wikipedia.org/wiki/Cache_coherence#/media/File:Cache_Coherency_Generic.png"
+                                                    class="markup--anchor markup--figure-anchor"
+                                                    rel="nofollow"
+                                                    target="_blank"
+                                                >
+                                                    https://en.wikipedia.org/wiki/Cache_coherence
+                                                </a>
+                                            </figcaption>
+                                        </figure>
+                                        <p name="6172" id="6172" class="graf graf--p graf-after--figure">
+                                            The <strong class="markup--strong markup--p-strong">MESI protocol</strong> is a cache coherence protocol, and is one of the most common protocols. In the MESI protocol,
+                                            <strong class="markup--strong markup--p-strong"> each cache line can be in one of these four distinct states: Modified, Exclusive, Shared, or Invalid.</strong>
+                                        </p>
+                                        <p name="c6e6" id="c6e6" class="graf graf--p graf-after--p">Lets look at this protocol further, through an example</p>
+                                        <ol class="postList">
+                                            <li name="41ff" id="41ff" class="graf graf--li graf-after--p">
+                                                Two cores core X and core Y try to read long values x and y from main memory. Let us assume that x and y are close to each other and lie in the same cache line.
+                                            </li>
+                                            <li name="982e" id="982e" class="graf graf--li graf-after--li">
+                                                Core X reads the value of x from the main memory. As seen before this core will fetch a few more values from the memory and store them into a cache line. Then it marks that cache line as
+                                                <strong class="markup--strong markup--li-strong">exclusive</strong> since core X is the only core operating on this cache line. Now whenever possible, this core will read the value from
+                                                the cache line instead of less efficient read from the main memory.
+                                            </li>
+                                            <li name="c876" id="c876" class="graf graf--li graf-after--li">
+                                                Now let’s say core Y also decides to read the value of y from the main memory. Since y was in the same cache line as x, both cores will tag their cache lines as
+                                                <strong class="markup--strong markup--li-strong">shared</strong>
+                                            </li>
+                                            <li name="0cad" id="0cad" class="graf graf--li graf-after--li">
+                                                Let’s say that now core X decides to modify the value of x. It modifies its local cache and change the status of its cache line to
+                                                <strong class="markup--strong markup--li-strong">modified.</strong>
+                                            </li>
+                                            <li name="eec2" id="eec2" class="graf graf--li graf-after--li graf--trailing">
+                                                Core X communicates it’s changes to core Y, which will mark it’s cache line as <strong class="markup--strong markup--li-strong">invalid. </strong>This way both core X and Y are in
+                                                coherence.
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </section>
+                            <section name="da01" class="section section--body">
+                                <div class="section-divider"><hr class="section-divider" /></div>
+                                <div class="section-content">
+                                    <div class="section-inner sectionLayout--insetColumn">
+                                        <h2 name="f1c9" id="f1c9" class="graf graf--h3 graf--leading">False Sharing</h2>
+                                        <p name="8167" id="8167" class="graf graf--p graf-after--h3">Now, let’s come back to our topic of false sharing. Let us take the above explained example to look at how false sharing can occur.</p>
+                                        <ol class="postList">
+                                            <li name="2b65" id="2b65" class="graf graf--li graf-after--p">Just to recap, our core X cache line was in modified state, whereas the core Y cache line was in invalid state.</li>
+                                            <li name="b46a" id="b46a" class="graf graf--li graf-after--li">
+                                                Now, suppose core Y wants to read the value of y again. Since the cache line was invalidated, it can’t read the value from cache and has to do the inefficient read from the main memory
+                                                (cache miss).
+                                            </li>
+                                            <li name="4216" id="4216" class="graf graf--li graf-after--li">
+                                                This will force the core X to flush it’s store buffer. Now both will have updated cache line marked in shared state. <br />
+                                                You might think what is store buffer. Usually, the processors buffer modifications they make in their <em class="markup--em markup--li-em">store buffers</em> before flushing it back to the
+                                                main memory. It takes a bunch of small writes (think 8 byte writes) and packs them into a single larger transaction (a 64-byte cache line) before sending them to the memory system.
+                                                Buffering and flushing back in batches can be a huge performance boost.
+                                            </li>
+                                            <li name="d24a" id="d24a" class="graf graf--li graf-after--li">
+                                                This phenomenon of cache miss, even when the data blocks resided in different memory locations and weren’t directly updated, is called False sharing. Core X was forced to bear the caching
+                                                system overhead inspite of never directly accessing the value y.
+                                            </li>
+                                        </ol>
+                                        <p name="8ca7" id="8ca7" class="graf graf--p graf-after--li graf--trailing">
+                                            By increasing the number of cache miss and much more frequent access of data from main memory, the performance of the system is negatively affected.
+                                        </p>
+                                    </div>
+                                </div>
+                            </section>
+                            <section name="7650" class="section section--body">
+                                <div class="section-divider"><hr class="section-divider" /></div>
+                                <div class="section-content">
+                                    <div class="section-inner sectionLayout--insetColumn">
+                                        <h2 name="6759" id="6759" class="graf graf--h3 graf--leading">Avoiding false sharing</h2>
+                                        <p name="d844" id="d844" class="graf graf--p graf-after--h3">
+                                            Now, that we know what false sharing is and how it occurs, let’s look into how can we avoid it. We will also be looking at what support java provides to tackle this problem
+                                        </p>
+                                        <p name="2d1f" id="2d1f" class="graf graf--p graf-after--p">
+                                            As seen from our previous example, the whole issue occurred because of the two values x and y, lying in the same cache line. A simple fix to solve this is to
+                                            <strong class="markup--strong markup--p-strong">add padding</strong> around the 2 values, so that both these values reside in different cache line.
+                                        </p>
+                                        <p name="f899" id="f899" class="graf graf--p graf-after--p">
+                                            Since our cache line size is 64 bytes and long is 8 bytes. We know that both existing x and y variables were long. So by adding 7 more long variables as a padding we can make sure that the
+                                            long y is in a different cache line.
+                                        </p>
+                                        <figure name="80d7" id="80d7" class="graf graf--figure graf-after--p">
+                                            <img src="images/fs_2.png"> 
+                                        </figure>
+                                        <p name="8c8c" id="8c8c" class="graf graf--p graf-after--figure">
+                                            Using volatile reduces the risk of our padded unused variables from getting removed by the JVM. <strong class="markup--strong markup--p-strong">Dead Code Elimination</strong> is an
+                                            optimisation done by JVM that removes code which does not affect the program results. Another way to escape from
+                                            <strong class="markup--strong markup--p-strong">dead code elimination</strong> phenomenon could be through logging.
+                                        </p>
+                                        <h4 name="926a" id="926a" class="graf graf--h4 graf-after--p">@Contended Annotation (Java specific)</h4>
+                                        <p name="0a93" id="0a93" class="graf graf--p graf-after--h4">Java handles false sharing internally through the @Contended annotation. Java code describes this annotation as following -</p>
+                                        <blockquote name="2a1d" id="2a1d" class="graf graf--blockquote graf-after--p">
+                                            An annotation expressing that objects and/or their fields are expected to encounter memory contention, generally in the form of “false sharing”.
+                                            <strong class="markup--strong markup--blockquote-strong">
+                                                This annotation serves as a hint that such objects and fields should reside in locations isolated from those of other objects or fields. Susceptibility to memory contention is a property
+                                                of the intended usages of objects and fields, not their types or qualifiers. The effects of this annotation will nearly always add significant space overhead to objects.
+                                            </strong>
+                                        </blockquote>
+                                        <p name="1abc" id="1abc" class="graf graf--p graf-after--blockquote">
+                                            <a
+                                                href="https://medium.com/r/?url=http%3A%2F%2Ftwitter.com%2FContended"
+                                                data-href="https://medium.com/r/?url=http%3A%2F%2Ftwitter.com%2FContended"
+                                                class="markup--anchor markup--p-anchor"
+                                                title="Twitter profile for @Contended"
+                                                rel="nofollow"
+                                                target="_blank"
+                                            >
+                                                @Contended
+                                            </a>
+                                            is a sun.misc annotation, which means that we should ideally not use it in our code
+                                        </p>
+                                        <p name="728a" id="728a" class="graf graf--p graf-after--p">Some examples of core java code(java 8), where @Contended is widely used -</p>
+                                        <ol class="postList">
+                                            <li name="e33a" id="e33a" class="graf graf--li graf-after--p"><strong>ForkJoinPool class</strong></li>
+                                        </ol>
+                                        <figure name="6e4a" id="6e4a" class="graf graf--figure graf-after--li">
+                                            <img src="images/fs_3.png"> 
+                                        </figure>
+                                        <p name="380f" id="380f" class="graf graf--p graf-after--figure">2. <strong>ThreadLocalRandom</strong></p>
+                                        <figure name="8fce" id="8fce" class="graf graf--figure graf-after--p">
+                                            <img src="images/fs_4.png"> 
+                                        </figure>
+                                        <p name="83eb" id="83eb" class="graf graf--p graf-after--figure graf--trailing">
+                                            That’s all from my side, folks. I hope this article made sense to you. Please feel free to give your feedback. Check out the articles on medium at —
+                                            <a
+                                                href="https://pratyushbansal.medium.com/"
+                                                data-href="https://pratyushbansal.medium.com/"
+                                                class="markup--anchor markup--p-anchor"
+                                                rel="noopener nofollow"
+                                                target="_blank"
+                                            >
+                                                hhttps://pratyushbansal.medium.com/
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </section>
+                            <section name="4cc8" class="section section--body section--last">
+                                <div class="section-divider"><hr class="section-divider" /></div>
+                                <div class="section-content">
+                                    <div class="section-inner sectionLayout--insetColumn">
+                                        <h2 name="dedb" id="dedb" class="graf graf--h3 graf--leading">References</h2>
+                                        <ol class="postList">
+                                            <li name="ec47" id="ec47" class="graf graf--li graf-after--h3">
+                                                <a
+                                                    href="https://medium.com/r/?url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FCache_coherence"
+                                                    data-href="https://medium.com/r/?url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FCache_coherence"
+                                                    class="markup--anchor markup--li-anchor"
+                                                    rel="nofollow"
+                                                    target="_blank"
+                                                >
+                                                    https://en.wikipedia.org/wiki/Cache_coherence
+                                                </a>
+                                            </li>
+                                            <li name="073b" id="073b" class="graf graf--li graf-after--li">
+                                                <a
+                                                    href="https://medium.com/r/?url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FFalse_sharing"
+                                                    data-href="https://medium.com/r/?url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FFalse_sharing"
+                                                    class="markup--anchor markup--li-anchor"
+                                                    rel="nofollow"
+                                                    target="_blank"
+                                                >
+                                                    https://en.wikipedia.org/wiki/False_sharing
+                                                </a>
+                                            </li>
+                                            <li name="a94a" id="a94a" class="graf graf--li graf-after--li graf--trailing">
+                                                <a
+                                                    href="https://medium.com/r/?url=https%3A%2F%2Fwww.geeksforgeeks.org%2Fcache-coherence-protocols-in-multiprocessor-system%2F"
+                                                    data-href="https://medium.com/r/?url=https%3A%2F%2Fwww.geeksforgeeks.org%2Fcache-coherence-protocols-in-multiprocessor-system%2F"
+                                                    class="markup--anchor markup--li-anchor"
+                                                    rel="nofollow"
+                                                    target="_blank"
+                                                >
+                                                    https://www.geeksforgeeks.org/cache-coherence-protocols-in-multiprocessor-system/
+                                                </a>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </section>
+                        </section>
+
+
+                        <p class="entry__tags">
+                            <span>Post Tags</span>
+        
+                            <span class="entry__tag-list">
+                                <a href="#0">Performance</a>
+                                <a href="#0">Multithreading</a>
+                                <a href="#0">Cpu</a>
+                            </span>
+            
+                        </p>
+                    </div> <!-- end entry content -->
+
+
+                    <div class="entry__related">
+                        <h3 class="h2">Related Articles</h3>
+
+                        <ul class="related">
+                            <li class="related__item">
+                                <a href="hystrix-redis.html" class="related__link">
+                                    <img src="images/p2_r.jpg" alt="">
+                                </a>
+                                <h5 class="related__post-title">Building A Highly Cached Fault Tolerant System using Redis, Hystrix and Spring Boot</h5>
+                            </li>
+                            <li class="related__item">
+                                <a href="consensus-algorithms.html" class="related__link">
+                                    <img src="images/p1_r.jpg" alt="">
+                                </a>
+                                <h5 class="related__post-title">Demystifying Consensus Algorithms and Their Implementations</h5>
+                            </li>
+                            <li class="related__item">
+                                <a href="xss.html" class="related__link">
+                                    <img src="images/p3_r.jpg" alt="">
+                                </a>
+                                <h5 class="related__post-title">SQL Injection and XSS Security Threats</h5>
+                            </li>
+                        </ul>
+                    </div>
+
+                </article> <!-- end column large-full entry-->
+
+
+                <!-- <div class="container">
+
+                    <div class="powr-comments" id="8ea8e967_1610394846"></div><script src="https://www.powr.io/powr.js?platform=bootstrap"></script>
+            
+                </div> <!-- end comments-wrap --> 
+            </main>
+
+        </div> <!-- end s-content -->
+
+
+        <!-- footer
+        ================================================== -->
+        <div id="footer"></div>
+
+    </div> <!-- end s-wrap -->
+
+
+    <!-- Java Script
+    ================================================== -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+

@@ -3275,7 +3275,7 @@ body.search-is-visible {
  * ## related articles
  * ------------------------------------------------------------------- */
 .entry__related {
-  margin-top: 10.2rem;
+  margin-top: 4.2rem;
   padding-top: 2rem;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   position: relative;
@@ -3312,6 +3312,8 @@ body.search-is-visible {
 
 .related__link img {
   vertical-align: bottom;
+  height: 146px;
+  width: 260px;
 }
 
 .related__link::before {
