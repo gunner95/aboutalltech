@@ -99,8 +99,7 @@
                                     <div class="section-content">
                                         <div class="section-inner sectionLayout--insetColumn">
                                             <p name="acf5" id="acf5" class="graf graf--p graf-after--h3">
-                                                In this article we will be looking into the concept of false sharing and how it could hamper your applications performance. We will also be exploring java’s Contended annotation for
-                                                prevention of false sharing.
+                                                In this article we will be looking into the concept of false sharing and how it could hamper your applications performance. We will also be exploring some related concepts like cache coherence, cache lines and java’s Contended annotation for prevention of false sharing.
                                             </p>
                                             <h2 name="d96a" id="d96a" class="graf graf--h3 graf-after--figure"><strong class="markup--strong markup--h3-strong">What is False sharing?</strong></h2>
                                             <p name="1842" id="1842" class="graf graf--p graf-after--h3">Let us look how wikipedia defines this concept -</p>
@@ -108,8 +107,7 @@
 
                                                 <strong class="markup--strong markup--p-strong">False sharing</strong> is a performance-degrading usage pattern that can arise in systems with distributed,
                                                 <a
-                                                    href="https://medium.com/r/?url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FCache_coherence"
-                                                    data-href="https://medium.com/r/?url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FCache_coherence"
+                                                    href="https://en.wikipedia.org/wiki/Cache_coherence"
                                                     class="markup--anchor markup--p-anchor"
                                                     title="Cache coherence"
                                                     rel="nofollow"
@@ -229,8 +227,7 @@
                                                 Buffering and flushing back in batches can be a huge performance boost.
                                             </li>
                                             <li name="d24a" id="d24a" class="graf graf--li graf-after--li">
-                                                This phenomenon of cache miss, even when the data blocks resided in different memory locations and weren’t directly updated, is called False sharing. Core X was forced to bear the caching
-                                                system overhead inspite of never directly accessing the value y.
+                                                This phenomenon of cache miss, even when the data blocks resided in different memory locations and weren’t directly updated, is called False sharing. This imposes a cache miss to one core and an early buffer flush to another one, even though the two cores weren't operating on the same memory location
                                             </li>
                                         </ol>
                                         <p name="8ca7" id="8ca7" class="graf graf--p graf-after--li graf--trailing">
